@@ -1,12 +1,5 @@
 # %%
-from importlib import reload
-import utils
-reload(utils)
-
-# %%
 from utils import *
-from scipy.stats import entropy
-
 
 # %%
 df = pd.read_excel('data/chicago/chicago_with_sentiment_apen.xlsx')
