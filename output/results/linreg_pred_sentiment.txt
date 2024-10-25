@@ -1,0 +1,1 @@
+{'STD_SENT_SYUZHET': {'coef': 0.719, 'r2': 0.787, 'se': 0.015, 'adj_r2': 0.787, 'pval': 0.0}, 'HURST_SYUZHET': {'coef': 0.04, 'r2': 0.201, 'se': 0.041, 'adj_r2': 0.199, 'pval': 0.336}, 'APEN_SYUZHET_SLIDING': {'coef': 0.729, 'r2': 0.428, 'se': 0.023, 'adj_r2': 0.427, 'pval': 0.0}}
