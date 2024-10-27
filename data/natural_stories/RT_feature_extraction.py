@@ -190,7 +190,8 @@ stories_split_rts
 
 # %%
 # Now we get features
-## NB
+## NB, set this to true if you want to extract data from the split stories
+
 split = False
 
 # define use_df (unsplit/split version of corpus)
@@ -319,6 +320,7 @@ for key, text in tqdm(text_dict.items(), total=len(text_dict)):
             pass
 
         # hurst
+        # we use the saffine package for this
         try:
             temp["hurst"] = get_hurst(valences)
         except:

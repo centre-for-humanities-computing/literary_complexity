@@ -11,7 +11,7 @@ To reproduce results on the relations between features as human perceived comple
 
 #### In ```data``` you will find:
 - The [Chicago Corpus dataset](https://github.com/centre-for-humanities-computing/chicago_corpus) of features & meta-data
-- The filtered word reaction times from the [Natural Stories corpus](https://github.com/languageMIT/naturalstories/)
+- The filtered word reaction times from the [Natural Stories corpus](https://github.com/languageMIT/naturalstories/). In ```RT_feature_extraction.py``` you will find the code to extract the features from the raw data.
 - The list of 200 novels' difficulty rank from the paper of [Dalvean & Enkhbayar, 2018](https://dx.doi.org/10.2139/ssrn.3097706)
 
 ...
