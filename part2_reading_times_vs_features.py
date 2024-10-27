@@ -28,8 +28,10 @@ sns.scatterplot(x=feat1, y=feat2, data=df)
 
 # %%
 # plot histogram
-plt.figure(figsize=(5, 3))
-sns.histplot(df['NORM_STORY_RT_PER_SENTENCE'], color='blue', bins=30)
+# make a histogram of the scores
+plt.figure(figsize=(6, 3), dpi=500)
+sns.histplot(df['NORM_STORY_RT_PER_SENTENCE'], color='purple', kde=True)
+plt.xlabel('Reading Times')
 
 
 # %%

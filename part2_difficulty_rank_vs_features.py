@@ -79,11 +79,25 @@ merged = lindf.merge(dalvean_list, on=['AUTH_LAST', 'TITLE'], how='inner')
 print('number of Dalvean datapoints in Chicago:', len(merged))
 
 # %%
+# save the list of novels in a txt file in data, including AUTH_LAST and TITLE and the assigned score
+with open('data/reader_level/dalvean_list_in_chicago.txt', 'w') as f:
+    for i, row in merged.iterrows():
+        f.write(f"{row['AUTH_LAST']} - {row['TITLE']} - {row['SCORE']}\n")
+
+
+# make a histogram of the scores
+plt.figure(figsize=(6, 3), dpi=500)
+sns.histplot(merged['SCORE'], color='purple', kde=True)
+plt.xlabel('Difficult Rank')
+
+# %%
 
 # now we want to predict merged['SCORE'] using the different feature categories
 plot = True
 
-carryout_feat_selection = 'PFA' # or 'RFE' else None
+carryout_feat_selection = None # 'PFA' or 'RFE' else None
+correlation_threshold = 0.5 # for PFA
+
 
 reader_level_scores_linreg_results = {}
 
@@ -126,18 +140,18 @@ for i, feature_set in enumerate(feature_sets):
         # Perform hierarchical clustering
         linkage_matrix = linkage(squareform(dist_matrix), method='average')
         
-        # Form clusters based on the threshold
+        # Form clusters based on the updated threshold
         cluster_labels = fcluster(linkage_matrix, correlation_threshold, criterion='distance')
         
-        # Select one representative feature from each cluster
+        # Select one representative feature from each cluster based on highest variance
         selected_features = []
         for cluster in set(cluster_labels):
             cluster_indices = [i for i, x in enumerate(cluster_labels) if x == cluster]
             cluster_features = [feature_set[idx] for idx in cluster_indices]
             
-            # Choose the feature with the highest average correlation within the cluster
+            # Choose the feature with the highest variance within the cluster
             if len(cluster_features) > 1:
-                representative_feature = corr_matrix[cluster_features].mean().idxmax()
+                representative_feature = X[cluster_features].var().idxmax()
             else:
                 representative_feature = cluster_features[0]
             
@@ -181,7 +195,7 @@ for i, feature_set in enumerate(feature_sets):
 
     save_extension = ''
     if carryout_feat_selection != None:
-        save_extension = '_w_feat_selection' + f'carryout_feat_selection'
+        save_extension = '_w_feat_selection' + f'{carryout_feat_selection}'
 
     with open(f'output/results/linreg_pred_DR{save_extension}.txt', 'w') as f:
         f.write(str(reader_level_scores_linreg_results))

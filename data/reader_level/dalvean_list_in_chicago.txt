@@ -1,0 +1,26 @@
+Rand - atlas shrugged - 1.56
+Chandler - the big sleep - -0.19
+Grisham - the runaway jury - 0.32
+Hemingway - the old man and the sea - -0.51
+Travers - mary poppins - -1.03
+Plath - the bell jar - 0.09
+Morrison - tar baby - 0.52
+Dick - do androids dream of electric sheep? - 0.86
+Fitzgerald - the great gatsby - 0.62
+McDermott - charming billy - -0.05
+Faulkner - as i lay dying - -0.6
+Golding - lord of the flies - 0.14
+Orwell - nineteen eighty-four - 0.99
+Asimov - second foundation - 2.12
+Waugh - the loved one - 0.94
+Bellow - the adventures of augie march - 0.43
+Huxley - brave new world - 2.45
+James - the portrait of a lady - 0.7
+Doctorow - ragtime - 0.39
+Porter - pollyanna - -0.18
+Proulx - the shipping news - 0.64
+Barnes - nightwood - 1.47
+Wharton - age of innocence - 0.79
+Wiggin - rebecca of sunnybrook farm - -0.43
+Pynchon - gravity's rainbow - 1.15
+Joyce - ulysses - 0.76

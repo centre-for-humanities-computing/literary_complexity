@@ -2,31 +2,47 @@
 """
                             OLS Regression Results                            
 ==============================================================================
-Dep. Variable:                  SCORE   R-squared:                       0.548
-Model:                            OLS   Adj. R-squared:                  0.487
-Method:                 Least Squares   F-statistic:                     8.908
-Date:                Sun, 27 Oct 2024   Prob (F-statistic):           0.000471
-Time:                        13:21:14   Log-Likelihood:                -20.795
-No. Observations:                  26   AIC:                             49.59
-Df Residuals:                      22   BIC:                             54.62
-Df Model:                           3                                         
+Dep. Variable:                  SCORE   R-squared:                       0.873
+Model:                            OLS   Adj. R-squared:                  0.603
+Method:                 Least Squares   F-statistic:                     3.234
+Date:                Sun, 27 Oct 2024   Prob (F-statistic):             0.0480
+Time:                        13:47:41   Log-Likelihood:                -4.3090
+No. Observations:                  26   AIC:                             44.62
+Df Residuals:                       8   BIC:                             67.26
+Df Model:                          17                                         
 Covariance Type:            nonrobust                                         
-==================================================================================
-                     coef    std err          t      P>|t|      [0.025      0.975]
-----------------------------------------------------------------------------------
-Intercept         -2.0728      0.519     -3.994      0.001      -3.149      -0.996
-FREQ_OF            4.4267      1.136      3.896      0.001       2.070       6.783
-SELF_MODEL_PPL   -37.2503     20.394     -1.827      0.081     -79.545       5.044
-WORD_ENTROPY       2.9494      1.158      2.547      0.018       0.547       5.351
+==============================================================================================
+                                 coef    std err          t      P>|t|      [0.025      0.975]
+----------------------------------------------------------------------------------------------
+Intercept                      6.8958      6.255      1.102      0.302      -7.529      21.320
+SENTENCE_LENGTH                8.7392      9.234      0.946      0.372     -12.553      30.032
+AVG_WORDLENGTH                 4.7705      6.491      0.735      0.483     -10.198      19.739
+READABILITY_FLESCH_EASE       -2.2338      3.592     -0.622      0.551     -10.516       6.049
+READABILITY_DALE_CHALL_NEW    -2.8927      9.942     -0.291      0.778     -25.819      20.033
+SPACY_FUNCTION_WORDS          -0.8599      1.238     -0.695      0.507      -3.714       1.995
+FREQ_OF                        5.4810      4.174      1.313      0.226      -4.144      15.107
+FREQ_THAT                      1.4301      2.675      0.535      0.607      -4.738       7.598
+NOMINAL_VERB_RATIO            -6.3356      5.879     -1.078      0.313     -19.892       7.221
+TTR_VERB                      -5.8490      7.923     -0.738      0.481     -24.119      12.421
+TTR_NOUN                       0.5843      4.086      0.143      0.890      -8.837      10.006
+MSTTR                         -3.8836      3.301     -1.176      0.273     -11.497       3.730
+SELF_MODEL_PPL                 5.0220     68.389      0.073      0.943    -152.684     162.728
+NDD_NORM_MEAN                 -7.5018      4.690     -1.600      0.148     -18.317       3.313
+NDD_NORM_STD                   4.6259      5.612      0.824      0.434      -8.315      17.567
+BZIP_TXT                      -5.4913      3.847     -1.427      0.191     -14.362       3.380
+BIGRAM_ENTROPY               -12.2916      7.001     -1.756      0.117     -28.437       3.853
+WORD_ENTROPY                  12.6613      5.683      2.228      0.056      -0.444      25.767
 ==============================================================================
-Omnibus:                        2.780   Durbin-Watson:                   2.168
-Prob(Omnibus):                  0.249   Jarque-Bera (JB):                1.510
-Skew:                           0.556   Prob(JB):                        0.470
-Kurtosis:                       3.399   Cond. No.                         205.
+Omnibus:                        3.101   Durbin-Watson:                   1.848
+Prob(Omnibus):                  0.212   Jarque-Bera (JB):                2.287
+Skew:                           0.726   Prob(JB):                        0.319
+Kurtosis:                       2.938   Cond. No.                     1.29e+03
 ==============================================================================
 
 Notes:
 [1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 1.29e+03. This might indicate that there are
+strong multicollinearity or other numerical problems.
 """, 'sentiment features': <class 'statsmodels.iolib.summary.Summary'>
 """
                             OLS Regression Results                            
@@ -35,7 +51,7 @@ Dep. Variable:                  SCORE   R-squared:                       0.252
 Model:                            OLS   Adj. R-squared:                  0.150
 Method:                 Least Squares   F-statistic:                     2.469
 Date:                Sun, 27 Oct 2024   Prob (F-statistic):             0.0887
-Time:                        13:21:14   Log-Likelihood:                -27.359
+Time:                        13:47:41   Log-Likelihood:                -27.359
 No. Observations:                  26   AIC:                             62.72
 Df Residuals:                      22   BIC:                             67.75
 Df Model:                           3                                         
@@ -60,29 +76,48 @@ Notes:
 """
                             OLS Regression Results                            
 ==============================================================================
-Dep. Variable:                  SCORE   R-squared:                       0.520
-Model:                            OLS   Adj. R-squared:                  0.455
-Method:                 Least Squares   F-statistic:                     7.955
-Date:                Sun, 27 Oct 2024   Prob (F-statistic):           0.000895
-Time:                        13:21:15   Log-Likelihood:                -21.581
-No. Observations:                  26   AIC:                             51.16
-Df Residuals:                      22   BIC:                             56.19
-Df Model:                           3                                         
+Dep. Variable:                  SCORE   R-squared:                       0.932
+Model:                            OLS   Adj. R-squared:                  0.659
+Method:                 Least Squares   F-statistic:                     3.413
+Date:                Sun, 27 Oct 2024   Prob (F-statistic):             0.0888
+Time:                        13:47:42   Log-Likelihood:                 3.7664
+No. Observations:                  26   AIC:                             34.47
+Df Residuals:                       5   BIC:                             60.89
+Df Model:                          20                                         
 Covariance Type:            nonrobust                                         
-======================================================================================
-                         coef    std err          t      P>|t|      [0.025      0.975]
---------------------------------------------------------------------------------------
-Intercept             -1.7681      0.515     -3.433      0.002      -2.836      -0.700
-FREQ_OF                5.5900      1.575      3.548      0.002       2.323       8.857
-NOMINAL_VERB_RATIO    -3.0048      2.210     -1.360      0.188      -7.587       1.578
-WORD_ENTROPY           2.4585      1.117      2.200      0.039       0.141       4.776
+==============================================================================================
+                                 coef    std err          t      P>|t|      [0.025      0.975]
+----------------------------------------------------------------------------------------------
+Intercept                     13.6995      7.571      1.809      0.130      -5.764      33.163
+SENTENCE_LENGTH               23.4088     11.619      2.015      0.100      -6.458      53.276
+AVG_WORDLENGTH                 4.2979      7.175      0.599      0.575     -14.145      22.741
+READABILITY_FLESCH_EASE       -5.2827      4.364     -1.211      0.280     -16.501       5.935
+READABILITY_DALE_CHALL_NEW   -15.1663     11.000     -1.379      0.226     -43.444      13.111
+SPACY_FUNCTION_WORDS          -2.8127      1.520     -1.851      0.123      -6.719       1.093
+FREQ_OF                        8.0874      4.523      1.788      0.134      -3.540      19.715
+FREQ_THAT                      0.7170      2.910      0.246      0.815      -6.763       8.197
+NOMINAL_VERB_RATIO           -10.9592      6.182     -1.773      0.136     -26.851       4.933
+TTR_VERB                      -7.6893      9.226     -0.833      0.443     -31.405      16.026
+TTR_NOUN                      -0.9293      4.457     -0.209      0.843     -12.386      10.527
+MSTTR                         -2.6013      3.536     -0.736      0.495     -11.690       6.487
+SELF_MODEL_PPL               124.3363     87.646      1.419      0.215    -100.964     349.637
+NDD_NORM_MEAN                -14.7394      5.598     -2.633      0.046     -29.130      -0.349
+NDD_NORM_STD                   2.3373      6.227      0.375      0.723     -13.669      18.343
+BZIP_TXT                     -12.3136      4.862     -2.532      0.052     -24.813       0.185
+BIGRAM_ENTROPY               -22.7266      8.946     -2.540      0.052     -45.724       0.271
+WORD_ENTROPY                  19.4410      7.160      2.715      0.042       1.036      37.846
+STD_SENT_SYUZHET               7.3099      7.036      1.039      0.346     -10.778      25.398
+HURST_SYUZHET                  2.2526      1.859      1.212      0.280      -2.526       7.031
+APEN_SYUZHET_SLIDING           2.5998      3.351      0.776      0.473      -6.015      11.214
 ==============================================================================
-Omnibus:                        4.083   Durbin-Watson:                   2.013
-Prob(Omnibus):                  0.130   Jarque-Bera (JB):                2.349
-Skew:                           0.582   Prob(JB):                        0.309
-Kurtosis:                       3.903   Cond. No.                         26.4
+Omnibus:                        2.407   Durbin-Watson:                   2.310
+Prob(Omnibus):                  0.300   Jarque-Bera (JB):                2.074
+Skew:                           0.600   Prob(JB):                        0.355
+Kurtosis:                       2.312   Cond. No.                     1.99e+03
 ==============================================================================
 
 Notes:
 [1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 1.99e+03. This might indicate that there are
+strong multicollinearity or other numerical problems.
 """}

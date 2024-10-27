@@ -6,6 +6,11 @@ df = pd.read_excel('data/chicago/chicago_with_sentiment_apen.xlsx')
 df.head()
 
 # %%
+plt.figure(figsize=(6, 3), dpi=500)
+sns.histplot(df['PUBL_DATE'], color='purple', kde=True)
+plt.xlabel('Year')
+
+# %%
 cols_to_use = ['BOOK_ID', 'TITLE', 'AUTH_LAST', 'AUTH_FIRST', 'PUBL_DATE', 'GENDER',
  # sentiment features
  #'HURST', 'APPENT', # vader based sentiment features
@@ -32,6 +37,7 @@ df = df[cols_to_use]
 
 print(len(df))
 df.head()
+
 
 #df.to_csv('data/chicago/cvs_for_mart.csv', index=False)
 # %%

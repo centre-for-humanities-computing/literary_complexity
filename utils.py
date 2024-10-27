@@ -18,6 +18,9 @@ from sklearn.linear_model import LinearRegression
 import statsmodels.api as sm
 from patsy import dmatrices
 
+from scipy.cluster.hierarchy import linkage, fcluster
+from scipy.spatial.distance import squareform
+
 import pingouin as pg
 
 # feature extraction
