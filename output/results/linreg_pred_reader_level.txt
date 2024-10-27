@@ -1,1 +1,0 @@
-{'styl/syntactic features': {'coef': 8.739, 'r2': 0.873, 'se': 9.234, 'adj_r2': 0.603, 'pval': 0.372}, 'sentiment features': {'coef': 6.079, 'r2': 0.252, 'se': 2.34, 'adj_r2': 0.15, 'pval': 0.016}, 'all features': {'coef': 23.409, 'r2': 0.932, 'se': 11.619, 'adj_r2': 0.659, 'pval': 0.1}}

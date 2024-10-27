@@ -1,0 +1,87 @@
+styl/syntactic features:
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                  SCORE   R-squared:                       0.400
+Model:                            OLS   Adj. R-squared:                  0.318
+Method:                 Least Squares   F-statistic:                     4.884
+Date:                Sun, 27 Oct 2024   Prob (F-statistic):            0.00944
+Time:                        13:22:04   Log-Likelihood:                -24.496
+No. Observations:                  26   AIC:                             56.99
+Df Residuals:                      22   BIC:                             62.02
+Df Model:                           3                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          0.5365      0.132      4.054      0.001       0.262       0.811
+x1             1.6565      0.448      3.695      0.001       0.727       2.586
+x2            -0.5314      0.594     -0.894      0.381      -1.764       0.701
+x3             0.3320      0.744      0.446      0.660      -1.210       1.874
+==============================================================================
+Omnibus:                        3.755   Durbin-Watson:                   1.645
+Prob(Omnibus):                  0.153   Jarque-Bera (JB):                2.245
+Skew:                           0.354   Prob(JB):                        0.325
+Kurtosis:                       4.254   Cond. No.                         5.62
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+sentiment features:
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                  SCORE   R-squared:                       0.252
+Model:                            OLS   Adj. R-squared:                  0.150
+Method:                 Least Squares   F-statistic:                     2.469
+Date:                Sun, 27 Oct 2024   Prob (F-statistic):             0.0887
+Time:                        13:22:05   Log-Likelihood:                -27.359
+No. Observations:                  26   AIC:                             62.72
+Df Residuals:                      22   BIC:                             67.75
+Df Model:                           3                                         
+Covariance Type:            nonrobust                                         
+========================================================================================
+                           coef    std err          t      P>|t|      [0.025      0.975]
+----------------------------------------------------------------------------------------
+Intercept                1.1929      1.431      0.834      0.413      -1.774       4.160
+STD_SENT_SYUZHET         6.0786      2.340      2.598      0.016       1.226      10.932
+HURST_SYUZHET           -0.2705      1.683     -0.161      0.874      -3.761       3.220
+APEN_SYUZHET_SLIDING    -2.7969      1.856     -1.507      0.146      -6.646       1.053
+==============================================================================
+Omnibus:                        2.458   Durbin-Watson:                   1.702
+Prob(Omnibus):                  0.293   Jarque-Bera (JB):                1.090
+Skew:                           0.261   Prob(JB):                        0.580
+Kurtosis:                       3.856   Cond. No.                         24.8
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+all features:
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                  SCORE   R-squared:                       0.397
+Model:                            OLS   Adj. R-squared:                  0.315
+Method:                 Least Squares   F-statistic:                     4.830
+Date:                Sun, 27 Oct 2024   Prob (F-statistic):            0.00988
+Time:                        13:22:05   Log-Likelihood:                -24.554
+No. Observations:                  26   AIC:                             57.11
+Df Residuals:                      22   BIC:                             62.14
+Df Model:                           3                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          0.5365      0.133      4.045      0.001       0.261       0.812
+x1             1.6548      0.445      3.720      0.001       0.732       2.577
+x2            -0.4438      0.566     -0.785      0.441      -1.617       0.729
+x3             0.1439      0.722      0.199      0.844      -1.353       1.641
+==============================================================================
+Omnibus:                        3.577   Durbin-Watson:                   1.668
+Prob(Omnibus):                  0.167   Jarque-Bera (JB):                2.078
+Skew:                           0.334   Prob(JB):                        0.354
+Kurtosis:                       4.213   Cond. No.                         5.44
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+

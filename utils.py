@@ -16,6 +16,7 @@ from sklearn.feature_selection import RFE
 from sklearn.linear_model import LinearRegression
 
 import statsmodels.api as sm
+from patsy import dmatrices
 
 import pingouin as pg
 
