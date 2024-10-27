@@ -6,12 +6,12 @@ This is the repository containing code & data for our paper on literary multidim
 
 We carried out 3 experiments for the study:
 1. _Relations between features at the stylistic/syntactic and sentiment level in the Chicago Corpus of novels (19th-20th century)_
-2. _Relations between features and reading time in a small corpus of stories_
-3. _Relations between features and novels' difficulty rank_
-
 To examine the relation between features at the stylistic/syntactic and sentiment level, see ```part1_relations_features.py```
 
-To reproduce results on the relations between features as human perceived complexity, see the scripts:
+2. _Relations between features and reading time (RT) in a small corpus of stories_
+3. _Relations between features and novels' difficulty rank (DR)_
+
+To reproduce results on the relations between features as human perceived complexity (RT, DR), see the scripts:
 - reading time experiment in ```part2_reading_time_vs_features.py```
 - difficulty rank experiment in ```part2_difficulty_rank_vs_features.py```
 
