@@ -15,6 +15,7 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.feature_selection import RFE
 from sklearn.linear_model import LinearRegression
 
+import statsmodels.api as sm
 
 import pingouin as pg
 

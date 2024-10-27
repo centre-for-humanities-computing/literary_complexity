@@ -16,23 +16,14 @@ cols_to_use = ['BOOK_ID', 'TITLE', 'AUTH_LAST', 'AUTH_FIRST', 'PUBL_DATE', 'GEND
   'WORDCOUNT', 'SENTENCE_LENGTH', 'AVG_WORDLENGTH', # simple stylistics
    'READABILITY_FLESCH_EASE', 'READABILITY_DALE_CHALL_NEW', 
  'SPACY_FUNCTION_WORDS', 'FREQ_OF', 'FREQ_THAT', 'PASSIVE_ACTIVE_RATIO', 'NOMINAL_VERB_RATIO', # syntactics
- 'TTR_VERB', 'TTR_NOUN', 'MSTTR-100', # TTRs
+ 'TTR_VERB', 'TTR_NOUN', 'MSTTR', # TTRs
  'SELF_MODEL_PPL', 
  'NDD_NORM_MEAN', 'NDD_NORM_STD', 'NDD_RAW_MEAN', 'NDD_RAW_STD',
- 'BZIP_TXT','BIGRAM_ENTROPY', 'WORD_ENTROPY', # 'entropy' measures
- # list proxies
- 'BESTSELLERS', 
- 'PENGUIN_CLASSICS_SERIES_TITLEBASED', 'PENGUIN_CLASSICS_SERIES_AUTHORBASED', 'OPENSYLLABUS', # in 'CANON'
- 'NORTON',
- 'CANON', 
- # awards
- 'SCIFI_AWARDS', 'FANTASY_AWARDS', 'HORROR_AWARDS', 'ROMANTIC_AWARDS',
- #'PULITZER', 'NOBEL','NBA', # all in 'PRIZES'
- 'PRIZES', 
- 'GENRE_PR', 
- # continuous quality proxies
- 'TRANSLATIONES', 'AUTH_PAGERANK', 'AVG_RATING', 'RATING_COUNT','TRANSLATIONS', 'LIBRARIES'
+ 'BZIP_TXT','BIGRAM_ENTROPY', 'WORD_ENTROPY' # 'entropy' measures
  ]
+
+# rename mstrr-100 to msttr
+df.rename(columns={'MSTTR-100': 'MSTTR'}, inplace=True)
 
 # normalize the function words by wordcount
 df['SPACY_FUNCTION_WORDS'] = df['SPACY_FUNCTION_WORDS'] / df['WORDCOUNT']
@@ -42,6 +33,7 @@ df = df[cols_to_use]
 print(len(df))
 df.head()
 
+#df.to_csv('data/chicago/cvs_for_mart.csv', index=False)
 # %%
 ## Experiment 1: examine relations between features
 
@@ -50,13 +42,7 @@ df.head()
 # get rid of the first columns
 dt = df.drop(columns=['BOOK_ID', 'TITLE', 'AUTH_LAST', 'AUTH_FIRST', 'PUBL_DATE','GENDER'])
 
-# and drop the proxies
-dt = dt.drop(columns=['BESTSELLERS', 'NORTON', 'CANON', 'SCIFI_AWARDS', 'FANTASY_AWARDS', 'HORROR_AWARDS', 'ROMANTIC_AWARDS', 'PRIZES', 'GENRE_PR', 'TRANSLATIONES', 'AUTH_PAGERANK', 'AVG_RATING', 'RATING_COUNT', 'TRANSLATIONS', 'LIBRARIES'])
 corr = dt.corr(method='spearman')
-
-# try with masking the non-significant values
-
-
 plt.figure(figsize=(20, 20))
 sns.clustermap(corr,  linewidths=0.5, cbar=False, annot=True, figsize=(20, 15), method='ward')
 # %%
@@ -72,7 +58,7 @@ select = ['STD_SENT_SYUZHET','HURST_SYUZHET', 'APEN_SYUZHET_SLIDING', #'EMOTION_
           'SENTENCE_LENGTH', 'AVG_WORDLENGTH', # simple stylistics
    'READABILITY_FLESCH_EASE', 'READABILITY_DALE_CHALL_NEW', 
  'SPACY_FUNCTION_WORDS', 'FREQ_OF', 'FREQ_THAT', 'NOMINAL_VERB_RATIO', 'NDD_NORM_MEAN', 'NDD_NORM_STD', # dependency length # syntactics
- 'TTR_VERB', 'TTR_NOUN', 'MSTTR-100', # TTRs
+ 'TTR_VERB', 'TTR_NOUN', 'MSTTR', # TTRs
  'SELF_MODEL_PPL', # perplexity
  'BZIP_TXT','BIGRAM_ENTROPY', 'WORD_ENTROPY'] # entropy features
 
@@ -145,9 +131,9 @@ difficulty_features = [
    'READABILITY_FLESCH_EASE', 
    'READABILITY_DALE_CHALL_NEW', 
  'SPACY_FUNCTION_WORDS', 
- 'FREQ_OF', 'FREQ_THAT', 'PASSIVE_ACTIVE_RATIO', 'NOMINAL_VERB_RATIO', # syntactics
+ 'FREQ_OF', 'FREQ_THAT', 'NOMINAL_VERB_RATIO', # syntactics
  'TTR_VERB', 'TTR_NOUN', 
- 'MSTTR-100', # TTRs
+ 'MSTTR', # TTRs
  'SELF_MODEL_PPL', 
  'NDD_NORM_MEAN', 'NDD_NORM_STD', 
  'BZIP_TXT','BIGRAM_ENTROPY', 'WORD_ENTROPY'
@@ -171,33 +157,42 @@ print('Regression experiments, df prepared, features scaled')
 lindf.head()
 
 # %%
-## Experiment 2: predict sentiment features using stylistic features
-print('Predict sentiment features from stylistic features')
 
-# now loop
+# we convert data to a patsy frame
+# for this we need to convert features to strings so we can pass those in the loop
+
+# make difficutly features a string seperated by +
+difficulty_features_formatted = ' + '.join(difficulty_features)
+# same for sentiment features
+sentiment_features_formatted = ' + '.join(sentiment_features)
+# and all feats
+all_feats_formatted = ' + '.join(all_feats)
+
+print("patsy strings made")
+# %%
+
 sent_feats_linreg_results = {}
 
+# now loop and do linreg
+
+# predict sentiment features from styl/syntactic features
 for feature in sentiment_features:
 
-    X = lindf[difficulty_features]
-    y = lindf[feature]
+    y, X = dmatrices(f'{feature} ~ {difficulty_features_formatted}', data=lindf, return_type='dataframe')
+    mod = sm.OLS(y, X)
+    res = mod.fit()
+    print(f"{feature}")
+    print(res.summary())
 
-    lm = pg.linear_regression(X, y)
+    # add results to dict
+    sent_feats_linreg_results[feature] = res.summary()
 
-    temp = lm[["coef", "r2", "se", "adj_r2", "pval"]].iloc[1, :].to_dict()
-    temp = {key: round(value, 3) for key, value in temp.items()} # round
-
-    get_y_pred = pg.linear_regression(X, y, as_dataframe=False)
-    pred = list(get_y_pred['pred'])
-
-    #temp['RMSE'] = root_mean_squared_error(y, pred, squared=False) #True returns MSE
-
-    print(feature, '::', temp)
-    sent_feats_linreg_results[feature] = temp
+    # get the predicted values with sm
+    y_pred = res.predict(X)
 
     # plot it
     plt.figure(figsize=(7, 5), dpi=500)
-    sns.scatterplot(lindf, x =pred, y= y, color='teal', alpha=0.2)
+    sns.scatterplot(lindf, x =y_pred, y=lindf[feature], color='teal', alpha=0.2)
     plt.plot(y, y, color='red')
     plt.xlabel('Predicted Sentiment SD')
     plt.ylabel('Sentiment SD')
@@ -209,45 +204,42 @@ with open('output/results/linreg_pred_sentiment.txt', 'w') as f:
 
 
 # %%
-## Experiment 3: predict stylistic features using sentiment features
-print('Predict styl/syntactic features individually from stylistic features')
+# now loop
+# predict stylistic features from sentiment features
 
-plot = False
-
-diff_feats_linreg_results = {}
+stylistic_feats_linreg_results = {}
 
 for feature in difficulty_features:
 
-    X = lindf[sentiment_features]
-    y = lindf[feature]
+    y, X = dmatrices(f'{feature} ~ {sentiment_features_formatted}', data=lindf, return_type='dataframe')
+    mod = sm.OLS(y, X)
+    res = mod.fit()
+    print(f"{feature}")
+    print(res.summary())
 
-    lm = pg.linear_regression(X, y)
+    # add results to dict
+    stylistic_feats_linreg_results[feature] = res.summary()
 
-    temp = lm[["coef", "r2", "se", "adj_r2", "pval"]].iloc[1, :].to_dict()
-    temp = {key: round(value, 3) for key, value in temp.items()} # round
+    # get the predicted values with sm
+    y_pred = res.predict(X)
 
-    get_y_pred = pg.linear_regression(X, y, as_dataframe=False)
-    pred = list(get_y_pred['pred'])
-
-    print(feature, '::', temp)
-    diff_feats_linreg_results[feature] = temp
-
-    if plot == True:
     # plot it
-        plt.figure(figsize=(7, 5), dpi=500)
-        sns.scatterplot(lindf, x =pred, y= y, color='teal', alpha=0.2)
-        plt.plot(y, y, color='red')
-        plt.xlabel(f'Predicted {feature}')
-        plt.ylabel(f'{feature}')
-        plt.title('Predicted vs actual values')
-        plt.show()
+    plt.figure(figsize=(7, 5), dpi=500)
+    sns.scatterplot(lindf, x =y_pred, y=lindf[feature], color='teal', alpha=0.2)
+    plt.plot(y, y, color='red')
+    plt.xlabel(f'Predicted {feature}')
+    plt.ylabel(f'Actual {feature}')
+    plt.title(f'Predicted vs actual {feature}')
+    plt.show()
 
 with open('output/results/linreg_pred_styl-syntactic.txt', 'w') as f:
-    f.write(str(diff_feats_linreg_results))
+    f.write(str(stylistic_feats_linreg_results))
+
+
 
 
 # %%
-print('Done with experiments 1, 2, 3')
+print('Done with correlations and linreg in Chicago Corpus')
 
 
 # %%

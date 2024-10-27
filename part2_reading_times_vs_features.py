@@ -3,7 +3,7 @@ from utils import *
 
 from utils_feature_extraction import *
 # %%
-with open('output/reading_times_dataset_splitted.json', 'r') as f:
+with open('output/reading_times_dataset.json', 'r') as f:
     data = json.load(f)
 
 df = pd.DataFrame.from_dict(data)
@@ -25,6 +25,12 @@ print(f"CORR {feat1} & {feat2}: {round(corr,4)}", f"P-value: {p_value}")
 plt.figure(figsize=(5, 3))
 sns.set_style("whitegrid")
 sns.scatterplot(x=feat1, y=feat2, data=df)
+
+# %%
+# plot histogram
+plt.figure(figsize=(5, 3))
+sns.histplot(df['NORM_STORY_RT_PER_SENTENCE'], color='blue', bins=30)
+
 
 # %%
 # Let's try to predict reading time w. sentiment features
@@ -65,10 +71,13 @@ plot_scatters(lindf, scores_list2[10:], 'RT', 'blue', 20, 4, remove_outliers=Fal
 custom_scores = ['msttr', 'nominal_ratio', 'SD_sent']
 plot_scatters(lindf, custom_scores, 'RT', 'blue', 12, 3.5, remove_outliers=False, outlier_percentile=100, show_corr_values=False)
 
+
 # %%
 
+# we choose feature category then format the strings to make into a patsy matrix
+
 # linreg experiment
-use_type_features = 'all' # set this to 'stylistics', 'sentiment', or 'all'
+use_type_features = 'stylistics' # set this to 'stylistics', 'sentiment', or 'all'
 
 # define what feats to use
 if use_type_features == 'sentiment':
@@ -81,45 +90,60 @@ elif use_type_features == 'all':
     use_features = all_features
     print(f'using ALL features, n={len(difficulty_features)}, so performing a selection using recursive feature elimination')
 
-X = lindf[use_features]
-y = lindf['NORM_STORY_RT_PER_SENTENCE']
+
+# %%
+
+rt_linreg_results = {}
+
+# we use RFE to select features
+X_b = lindf[use_features]
+y_b = lindf['NORM_STORY_RT_PER_SENTENCE']
 
 # check how many features we are using, since we have so few datapoints
 if len(use_features) > 3:
     # then we need to select 3
     model = LinearRegression()
     rfe = RFE(model, n_features_to_select=3)
-    X_rfe = rfe.fit_transform(X, y)
+    X_rfe = rfe.fit_transform(X_b, y_b)
     selected_features = [feature for feature, rank in zip(use_features, rfe.ranking_) if rank == 1]
     print(f"Selected features after RFE: {selected_features}")
 
-    # Refit with selected features
-    X = lindf[selected_features]
+    selected_features_formatted = ' + '.join(selected_features)
+    use_features_formatted = selected_features_formatted
+
 else:
     print(f'Using all features without RFE (number of features used={len(use_features)})')
+    selected_features_formatted = use_features
+    use_features_formatted = ' + '.join(sentiment_features)
 
 
-lm = pg.linear_regression(X, y, relimp=True)
-temp = lm[["coef", "r2", "se", "adj_r2", "pval", "relimp"]].iloc[1, :].to_dict()
-temp = {key: round(value, 3) for key, value in temp.items()}
-if len(use_features) < 4: 
-    label = 'SENTIMENT features'
-else:
-    label = 'STYL/SYNTACTIC features'
-print('OVERALL results for', label, '::', temp)
-print(lm)
-print()
+print("Linreg experiment. Patsy strings made")
 
-for feature in use_features:
-    # set the variables
-    X = lindf[feature]
-    y = lindf['NORM_STORY_RT_PER_SENTENCE']
+# %%
 
-    # Re-run regression with the selected features individually
-    lm = pg.linear_regression(X, y, relimp=True)
-    temp = lm[["coef", "r2", "se", "adj_r2", "pval", "relimp"]].iloc[1, :].to_dict()
-    temp = {key: round(value, 3) for key, value in temp.items()}
-    print('INDIVIDUAL', feature, '::', temp)
+y, X = dmatrices(f'NORM_STORY_RT_PER_SENTENCE ~ {use_features_formatted}', data=lindf, return_type='dataframe')
+mod = sm.OLS(y, X)
+res = mod.fit()
+print(f"{use_features_formatted, use_type_features}")
+print(res.summary())
+
+# add results to dict
+rt_linreg_results[use_type_features] = res.summary()
+
+# get the predicted values with sm
+y_pred = res.predict(X)
+
+# plot it
+plt.figure(figsize=(7, 5), dpi=500)
+sns.scatterplot(lindf, x =y_pred, y=lindf['NORM_STORY_RT_PER_SENTENCE'], color='teal', alpha=0.2)
+plt.plot(y, y, color='red')
+plt.xlabel('Predicted RT')
+plt.ylabel('Actual RT')
+plt.title(f'Predicted vs actual RT - {use_type_features}')
+plt.show()
+
+with open(f'output/results/linreg_pred_based_on_{use_type_features}.txt', 'w') as f:
+    f.write(str(rt_linreg_results))
 
 
 # %%
