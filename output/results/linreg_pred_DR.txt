@@ -6,7 +6,7 @@ Dep. Variable:                  SCORE   R-squared:                       0.873
 Model:                            OLS   Adj. R-squared:                  0.603
 Method:                 Least Squares   F-statistic:                     3.234
 Date:                Sun, 27 Oct 2024   Prob (F-statistic):             0.0480
-Time:                        13:47:41   Log-Likelihood:                -4.3090
+Time:                        19:42:04   Log-Likelihood:                -4.3090
 No. Observations:                  26   AIC:                             44.62
 Df Residuals:                       8   BIC:                             67.26
 Df Model:                          17                                         
@@ -51,7 +51,7 @@ Dep. Variable:                  SCORE   R-squared:                       0.252
 Model:                            OLS   Adj. R-squared:                  0.150
 Method:                 Least Squares   F-statistic:                     2.469
 Date:                Sun, 27 Oct 2024   Prob (F-statistic):             0.0887
-Time:                        13:47:41   Log-Likelihood:                -27.359
+Time:                        19:42:04   Log-Likelihood:                -27.359
 No. Observations:                  26   AIC:                             62.72
 Df Residuals:                      22   BIC:                             67.75
 Df Model:                           3                                         
@@ -80,7 +80,7 @@ Dep. Variable:                  SCORE   R-squared:                       0.932
 Model:                            OLS   Adj. R-squared:                  0.659
 Method:                 Least Squares   F-statistic:                     3.413
 Date:                Sun, 27 Oct 2024   Prob (F-statistic):             0.0888
-Time:                        13:47:42   Log-Likelihood:                 3.7664
+Time:                        19:42:05   Log-Likelihood:                 3.7664
 No. Observations:                  26   AIC:                             34.47
 Df Residuals:                       5   BIC:                             60.89
 Df Model:                          20                                         

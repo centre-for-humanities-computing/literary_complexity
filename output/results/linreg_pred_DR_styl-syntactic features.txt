@@ -1,0 +1,27 @@
+                                 OLS Regression Results                                
+=======================================================================================
+Dep. Variable:                  SCORE   R-squared (uncentered):                   0.393
+Model:                            OLS   Adj. R-squared (uncentered):              0.314
+Method:                 Least Squares   F-statistic:                              4.970
+Date:                Sun, 27 Oct 2024   Prob (F-statistic):                     0.00837
+Time:                        16:18:38   Log-Likelihood:                         -29.451
+No. Observations:                  26   AIC:                                      64.90
+Df Residuals:                      23   BIC:                                      68.68
+Df Model:                           3                                                  
+Covariance Type:            nonrobust                                                  
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+x1             0.2122      0.061      3.460      0.002       0.085       0.339
+x2             0.0260      0.078      0.333      0.742      -0.135       0.187
+x3            -0.0466      0.097     -0.482      0.634      -0.247       0.153
+==============================================================================
+Omnibus:                        3.432   Durbin-Watson:                   1.207
+Prob(Omnibus):                  0.180   Jarque-Bera (JB):                2.112
+Skew:                           0.171   Prob(JB):                        0.348
+Kurtosis:                       4.354   Cond. No.                         1.86
+==============================================================================
+
+Notes:
+[1] R² is computed without centering (uncentered) since the model does not contain a constant.
+[2] Standard Errors assume that the covariance matrix of the errors is correctly specified.

@@ -68,7 +68,7 @@ lindf.head()
 # Experiment: predict reader level score using stylistic features
 
 # We load and merge the Dalvean list of books and his assigned complexity scores
-dalvean_list = pd.read_excel('data/reader_level/dalvean_list.xlsx')
+dalvean_list = pd.read_excel('data/difficulty_rank/dalvean_list.xlsx')
 # make the author last name column
 dalvean_list['AUTH_LAST'] = dalvean_list['AUTHOR'].str.split(',').str[0]
 # lowercase titles
@@ -80,13 +80,14 @@ print('number of Dalvean datapoints in Chicago:', len(merged))
 
 # %%
 # save the list of novels in a txt file in data, including AUTH_LAST and TITLE and the assigned score
-with open('data/reader_level/dalvean_list_in_chicago.txt', 'w') as f:
+with open('data/difficulty_rank/dalvean_list_in_chicago.txt', 'w') as f:
     for i, row in merged.iterrows():
         f.write(f"{row['AUTH_LAST']} - {row['TITLE']} - {row['SCORE']}\n")
 
 
 # make a histogram of the scores
 plt.figure(figsize=(6, 3), dpi=500)
+sns.set_style('whitegrid')
 sns.histplot(merged['SCORE'], color='purple', kde=True)
 plt.xlabel('Difficult Rank')
 
@@ -96,7 +97,7 @@ plt.xlabel('Difficult Rank')
 plot = True
 
 carryout_feat_selection = None # 'PFA' or 'RFE' else None
-correlation_threshold = 0.5 # for PFA
+correlation_threshold = 0.8 # for PFA
 
 
 reader_level_scores_linreg_results = {}
@@ -203,7 +204,6 @@ for i, feature_set in enumerate(feature_sets):
 # %%
 
 # try but instead of RFE use PCA to reduce collinearity
-from sklearn.decomposition import PCA
 
 carryout_PCA = True
 reader_level_scores_linreg_results = {}
@@ -274,4 +274,74 @@ for i, feature_set in enumerate(feature_sets):
 with open('output/results/linreg_pred_DR_w_PCA.txt', 'w') as f:
     for label, summary in reader_level_scores_linreg_results.items():
         f.write(f"{label}:\n{summary}\n\n")
+# %%
+
+# now we try to use PCA, but we fit the PCA on the chicago data, and then transform the merged data
+
+# take the original chicago again
+chicago = df
+# rename msttr
+chicago.rename(columns={"MSTTR-100": "MSTTR"}, inplace=True)
+# normalize the function words by wordcount
+chicago["SPACY_FUNCTION_WORDS"] = chicago["SPACY_FUNCTION_WORDS"] / chicago["WORDCOUNT"]
+
+difficulty_features = [
+    "SENTENCE_LENGTH",
+    "AVG_WORDLENGTH",  # simple stylistics
+    "READABILITY_FLESCH_EASE",
+    "READABILITY_DALE_CHALL_NEW",
+    "SPACY_FUNCTION_WORDS",
+    "FREQ_OF",
+    "FREQ_THAT",
+    "NOMINAL_VERB_RATIO",  # syntactics
+    "TTR_VERB",
+    "TTR_NOUN",
+    "MSTTR",  # TTRs
+    "SELF_MODEL_PPL",
+    "NDD_NORM_MEAN",
+    "NDD_NORM_STD",
+    "BZIP_TXT",
+    "BIGRAM_ENTROPY",
+    "WORD_ENTROPY",
+]
+sentiment_features = ["STD_SENT_SYUZHET", "HURST_SYUZHET", "APEN_SYUZHET_SLIDING"]
+all_feats = difficulty_features + sentiment_features
+
+lindf = df[difficulty_features + sentiment_features + ["AUTH_LAST", "TITLE"]].dropna()
+print("number of titles after drop na:", len(lindf))
+
+feature_sets = [
+    difficulty_features,
+    sentiment_features,
+    difficulty_features + sentiment_features,
+]
+
+labels = ["styl-syntactic features", "sentiment features", "all features"]
+colors = ["teal", "purple", "orange"]
+
+for i, feature_set in enumerate(feature_sets):
+    print(f"Running linear regression for {labels[i]}")
+    # check how many features we are using, since we have so few datapoints
+    pca = make_pipeline(StandardScaler(), PCA(n_components=3))
+    pca.fit(chicago[feature_set].dropna())
+    X = pca.transform(merged[feature_set])
+    y = merged["SCORE"]
+    mod = sm.OLS(y, X)
+    res = mod.fit()
+    features_formatted = "+".join(feature_set)
+    print(f"{labels[i]} ~ PCA(3|{features_formatted})")
+    print(res.summary())
+    # get the predicted values with sm
+    y_pred = res.predict(X)
+    # plot it
+    plt.figure(figsize=(7, 5), dpi=500)
+    sns.scatterplot(merged, x=y_pred, y=merged["SCORE"], color="teal", alpha=0.2)
+    plt.plot(y, y, color="red")
+    plt.xlabel("Predicted DR")
+    plt.ylabel("Actual DR")
+    plt.title(f"Predicted vs actual RT - {labels[i]}")
+    plt.savefig(f"figures/linreg_pred_DR_{labels[i]}.png")
+
+    with open(f"output/results/linreg_pred_DR_{labels[i]}_PCA_chicago.txt", "w") as f:
+        f.write(str(res.summary()))
 # %%

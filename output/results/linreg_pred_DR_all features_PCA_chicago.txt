@@ -1,0 +1,29 @@
+                                 OLS Regression Results                                
+=======================================================================================
+Dep. Variable:                  SCORE   R-squared (uncentered):                   0.624
+Model:                            OLS   Adj. R-squared (uncentered):              0.575
+Method:                 Least Squares   F-statistic:                              12.74
+Date:                Sun, 27 Oct 2024   Prob (F-statistic):                    4.13e-05
+Time:                        19:31:51   Log-Likelihood:                         -23.224
+No. Observations:                  26   AIC:                                      52.45
+Df Residuals:                      23   BIC:                                      56.22
+Df Model:                           3                                                  
+Covariance Type:            nonrobust                                                  
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+x1             0.0570      0.016      3.467      0.002       0.023       0.091
+x2            -0.0047      0.001     -4.950      0.000      -0.007      -0.003
+x3            -0.0051      0.006     -0.858      0.400      -0.017       0.007
+==============================================================================
+Omnibus:                        4.447   Durbin-Watson:                   2.025
+Prob(Omnibus):                  0.108   Jarque-Bera (JB):                2.666
+Skew:                           0.587   Prob(JB):                        0.264
+Kurtosis:                       4.040   Cond. No.                     7.58e+04
+==============================================================================
+
+Notes:
+[1] R² is computed without centering (uncentered) since the model does not contain a constant.
+[2] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[3] The condition number is large, 7.58e+04. This might indicate that there are
+strong multicollinearity or other numerical problems.

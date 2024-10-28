@@ -1,0 +1,88 @@
+{'styl/syntactic features': <class 'statsmodels.iolib.summary.Summary'>
+"""
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                  SCORE   R-squared:                       0.548
+Model:                            OLS   Adj. R-squared:                  0.487
+Method:                 Least Squares   F-statistic:                     8.908
+Date:                Sun, 27 Oct 2024   Prob (F-statistic):           0.000471
+Time:                        19:41:52   Log-Likelihood:                -20.795
+No. Observations:                  26   AIC:                             49.59
+Df Residuals:                      22   BIC:                             54.62
+Df Model:                           3                                         
+Covariance Type:            nonrobust                                         
+==================================================================================
+                     coef    std err          t      P>|t|      [0.025      0.975]
+----------------------------------------------------------------------------------
+Intercept         -2.0728      0.519     -3.994      0.001      -3.149      -0.996
+FREQ_OF            4.4267      1.136      3.896      0.001       2.070       6.783
+SELF_MODEL_PPL   -37.2503     20.394     -1.827      0.081     -79.545       5.044
+WORD_ENTROPY       2.9494      1.158      2.547      0.018       0.547       5.351
+==============================================================================
+Omnibus:                        2.780   Durbin-Watson:                   2.168
+Prob(Omnibus):                  0.249   Jarque-Bera (JB):                1.510
+Skew:                           0.556   Prob(JB):                        0.470
+Kurtosis:                       3.399   Cond. No.                         205.
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+""", 'sentiment features': <class 'statsmodels.iolib.summary.Summary'>
+"""
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                  SCORE   R-squared:                       0.252
+Model:                            OLS   Adj. R-squared:                  0.150
+Method:                 Least Squares   F-statistic:                     2.469
+Date:                Sun, 27 Oct 2024   Prob (F-statistic):             0.0887
+Time:                        19:41:52   Log-Likelihood:                -27.359
+No. Observations:                  26   AIC:                             62.72
+Df Residuals:                      22   BIC:                             67.75
+Df Model:                           3                                         
+Covariance Type:            nonrobust                                         
+========================================================================================
+                           coef    std err          t      P>|t|      [0.025      0.975]
+----------------------------------------------------------------------------------------
+Intercept                1.1929      1.431      0.834      0.413      -1.774       4.160
+STD_SENT_SYUZHET         6.0786      2.340      2.598      0.016       1.226      10.932
+HURST_SYUZHET           -0.2705      1.683     -0.161      0.874      -3.761       3.220
+APEN_SYUZHET_SLIDING    -2.7969      1.856     -1.507      0.146      -6.646       1.053
+==============================================================================
+Omnibus:                        2.458   Durbin-Watson:                   1.702
+Prob(Omnibus):                  0.293   Jarque-Bera (JB):                1.090
+Skew:                           0.261   Prob(JB):                        0.580
+Kurtosis:                       3.856   Cond. No.                         24.8
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+""", 'all features': <class 'statsmodels.iolib.summary.Summary'>
+"""
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                  SCORE   R-squared:                       0.520
+Model:                            OLS   Adj. R-squared:                  0.455
+Method:                 Least Squares   F-statistic:                     7.955
+Date:                Sun, 27 Oct 2024   Prob (F-statistic):           0.000895
+Time:                        19:41:53   Log-Likelihood:                -21.581
+No. Observations:                  26   AIC:                             51.16
+Df Residuals:                      22   BIC:                             56.19
+Df Model:                           3                                         
+Covariance Type:            nonrobust                                         
+======================================================================================
+                         coef    std err          t      P>|t|      [0.025      0.975]
+--------------------------------------------------------------------------------------
+Intercept             -1.7681      0.515     -3.433      0.002      -2.836      -0.700
+FREQ_OF                5.5900      1.575      3.548      0.002       2.323       8.857
+NOMINAL_VERB_RATIO    -3.0048      2.210     -1.360      0.188      -7.587       1.578
+WORD_ENTROPY           2.4585      1.117      2.200      0.039       0.141       4.776
+==============================================================================
+Omnibus:                        4.083   Durbin-Watson:                   2.013
+Prob(Omnibus):                  0.130   Jarque-Bera (JB):                2.349
+Skew:                           0.582   Prob(JB):                        0.309
+Kurtosis:                       3.903   Cond. No.                         26.4
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+"""}
